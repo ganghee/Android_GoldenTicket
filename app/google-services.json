@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "483353263645",
+    "firebase_url": "https://androidgoldenticket.firebaseio.com",
+    "project_id": "androidgoldenticket",
+    "storage_bucket": "androidgoldenticket.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:483353263645:android:7045b4f2d5363f4c",
+        "android_client_info": {
+          "package_name": "com.dazzi.goldenticket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "483353263645-60tkmmkfba95re8s0arc0rt64t6fnele.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dazzi.goldenticket",
+            "certificate_hash": "767c330a12b3a62a7a51e7e6ac43b2edef699f18"
+          }
+        },
+        {
+          "client_id": "483353263645-krs5ntaqn4tabottljpt2laba2kmvokv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDl7wCNKt_WZxisTUN6yXg6KvvK5KEa9_s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "483353263645-krs5ntaqn4tabottljpt2laba2kmvokv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

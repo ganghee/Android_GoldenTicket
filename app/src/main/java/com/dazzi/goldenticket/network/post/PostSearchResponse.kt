@@ -1,0 +1,15 @@
+package com.dazzi.goldenticket.network.post
+
+data class PostSearchResponse(
+    val status: Int,
+    val success: Boolean,
+    val message: String,
+    val data: ArrayList<SearchData>
+)
+
+data class SearchData(
+    val show_idx: Int,
+    val image_url: String,
+    val name: String,
+    val is_liked: Int
+)

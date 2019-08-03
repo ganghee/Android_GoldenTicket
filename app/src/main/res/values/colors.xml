@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources >
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#FFB30F</color>
+    <color name="white">#FFFFFF</color>
+    <color name="colorPrimaryYellow">#FFD63F</color>
+    <color name="colorPrimaryDarkYellow">#FFB30F</color>
+    <color name="colorGray">#CFCFCF</color>
+    <color name="transparent">#00000000</color>
+    <color name="font_general">#1f1f1f</color>
+    <color name="font_detail">#262626</color>
+    <color name="actionbar_transparent_dark">#aa000000</color>
+    <color name="colorYellow">#FBF695</color>
+    <color name="colorCoral">#fda47a</color>
+
+    <color name="refresh">#008000</color>
+    <color name="refresh1">#008080</color>
+    <color name="refresh2">#800080</color>
+
+    <color name="gray1">#B3B3B3</color>
+    <color name="gray2">#868686</color>
+    <color name="gray3">#333</color>
+
+</resources>

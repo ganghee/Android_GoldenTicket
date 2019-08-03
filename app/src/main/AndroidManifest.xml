@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.dazzi.goldenticket">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+            android:name=".network.Controller"
+            android:allowBackup="true"
+            android:icon="@drawable/group"
+            android:label="@string/app_name"
+            android:roundIcon="@drawable/group"
+            android:supportsRtl="true"
+            android:usesCleartextTraffic="true"
+            android:theme="@style/AppTheme"
+            tools:ignore="GoogleAppIndexingWarning">
+        <service android:name=".firebase.MyFirebaseMessagingService"
+                 android:exported="false"
+        >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+
+        <activity android:name=".activity.MyLotteryDetailActivity">
+
+        </activity>
+        <activity android:name=".activity.MyLotteryPaymentActivity">
+
+        </activity>
+        <activity android:name=".activity.MyLotteryNothingActivity">
+        </activity>
+        <activity android:name=".activity.LotteryNoticeActivity">
+        </activity>
+
+        <activity android:name=".activity.SearchResultActivity">
+
+        </activity>
+
+        <activity android:name=".activity.LotteryCompleteActivity">
+        </activity>
+        <activity android:name=".activity.MyLotteryActivity">
+
+        </activity>
+        <activity android:name=".activity.SearchActivity">
+
+        </activity>
+        <activity android:name=".activity.LotteryConfirmActivity">
+
+        </activity>
+        <activity android:name=".activity.UserUpdateActivity">
+
+        </activity>
+        <activity android:name=".activity.ContentActivity"
+                  android:theme="@style/ContentsActivityTheme">
+        </activity>
+        <activity android:name=".activity.NoticeActivity"/>
+        <activity android:name=".activity.QuestionActivity"/>
+
+        <activity android:name=".activity.StageInfoActivity">
+
+        </activity>
+        <activity android:name=".activity.KeepActivity">
+
+        </activity>
+        <activity
+                android:name=".activity.SettingsActivity"
+                android:label="@string/title_activity_settings">
+        </activity>
+        <activity android:name=".activity.TutorialActivity">
+
+        </activity>
+        <activity
+                android:name=".activity.SignUpActivity"
+                android:theme="@style/StatusYellowTheme"
+                android:windowSoftInputMode="adjustResize">
+
+        </activity>
+        <activity
+                android:name=".activity.LoginActivity"
+                android:windowSoftInputMode="adjustResize">
+
+        </activity>
+
+        <activity android:name=".activity.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.MainActivity"
+                  android:theme="@style/StatusYellowTheme">
+
+        </activity>
+
+    </application>
+
+</manifest>
