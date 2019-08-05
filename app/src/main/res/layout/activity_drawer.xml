@@ -12,9 +12,9 @@
                 android:id="@+id/iv_drawer_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="272dp"
-                android:layout_marginRight="23dp"
                 android:layout_marginTop="25dp"
+                android:layout_marginStart="250dp"
+                android:padding="10dp"
                 android:src="@drawable/bt_close"/>
         <LinearLayout
                 android:orientation="vertical"
@@ -89,7 +89,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="17dp"
-                        android:layout_marginLeft="33dp"
+                        android:layout_marginStart="33dp"
                         android:fontFamily="@font/notosans_medium"
                         android:text="당첨 내역"
                         android:textSize="14sp"
