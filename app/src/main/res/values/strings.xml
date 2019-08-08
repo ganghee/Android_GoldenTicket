@@ -24,4 +24,38 @@
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+    <!-- activity_login.xml-->
+    <string name="editText_email">이메일 주소 입력</string>
+    <string name="editText_password">비밀번호</string>
+    <string name="Button_login">로그인</string>
+    <string name="TextView_signup">이메일로 회원가입</string>
+
+    <!--activity_lottery_complete-->
+    <string name="textView_lottery_complete">응모완료</string>
+    <string name="textview_comment_first">당첨 결과는 공연 시작 2시간 전, 발표됩니다.</string>
+    <string name="textview_comment_second">푸시알림이 설정되어 있는지 확인해주세요.</string>
+    <string name="textview_comment_luck">푸시알림이 설정되어 있는지 확인해주세요.</string>
+    <string name="confirm">확인</string>
+
+    <!--activity_lottery_comfirm-->
+    <string name="todo">TODO</string>
+    <string name="lottery_confirm">아쉽지만 당첨되지\n않았어요</string>
+    <string name="lottery_congrate">축하합니다!</string>
+    <string name="lottery_pay">결제는 30분 안에 진행해주세요</string>
+    <string name="pay_cancel">30분이 지나면 자동 취소됩니다</string>
+    <string name="lottery_content">걱정하지 마세요. 매일매일 새로운\n골든티켓에 응모할 수 있습니다.</string>
+    <string name="alarm_text">보고싶은 공연의 알림을 설정해두세요.</string>
+    <string name="setting_keep">관심있는 공연으로 추가하기</string>
+    <string name="seek_other_show">다른 공연 찾아보기</string>
+    <string name="moment">잠깐!</string>
+    <string name="title_first">골든티켓은 무작위 추첨으로</string>
+    <string name="title_second">티켓을 판매합니다.</string>
+    <string name="notice_first">당첨 후 결제가 이루어지지 않으면</string>
+    <string name="notice_second">노쇼로 간주되어 패널티가 적용되오니</string>
+    <string name="notice_third">신중하게 응모해주세요!</string>
+    <string name="btn_lottery">응모하기</string>
+
+    <!--activity_lottery_notice-->
+
 </resources>
