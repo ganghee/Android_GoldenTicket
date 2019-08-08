@@ -8,7 +8,7 @@ import com.dazzi.goldenticket.network.post.*
 import com.dazzi.goldenticket.network.get.GetMyLotteryDetailResponse
 import com.dazzi.goldenticket.network.get.GetMyLotteryResponse
 import com.dazzi.goldenticket.network.get.GetStageInfoResponse
-import com.dazzi.goldenticket.network.get.GetCardDetailResponse
+import com.dazzi.goldenticket.network.get.GetMonthShowDetailResponse
 import com.dazzi.goldenticket.network.get.GetCardListResponse
 import com.dazzi.goldenticket.network.post.PostSignupResponse
 import com.dazzi.goldenticket.network.put.PutUserResponse
@@ -46,7 +46,7 @@ interface NetworkService {
         @Header("Content-Type") content_type: String
     ): Call<GetMainPosterResponse>
 
-    // 메인 뷰의 카드 리스트 조회
+    // 메인 뷰의 이번 달 리스트 조회
     @GET("card")
     fun getCardList(
         @Header("Content-Type") content_type: String
@@ -58,7 +58,7 @@ interface NetworkService {
     fun getCardDetail(
         @Header("Content-Type") content_type: String,
         @Path("id") card_id: Int
-    ): Call<GetCardDetailResponse>
+    ): Call<GetMonthShowDetailResponse>
 
 
     // 좋아요
@@ -75,7 +75,7 @@ interface NetworkService {
     fun deleteShowLike(
         @Header("Content-Type") content_type: String,
         @Header("token") user_token: String,
-        @Body() body:JsonObject
+        @Body body:JsonObject
     ): Call<DeleteShowLikeResponse>
 
 
@@ -164,4 +164,10 @@ interface NetworkService {
         @Header("Content-Type") content_type: String,
         @Header("token") user_token: String
     ): Call<DeleteUserResponse>
+
+    //메인 ALL 포스터 가져오기
+    @GET("/show/all")
+    fun getAllPosterResponse(
+        @Header("Content-Type") content_type: String
+    ): Call<GetAllPosterResponse>
 }
