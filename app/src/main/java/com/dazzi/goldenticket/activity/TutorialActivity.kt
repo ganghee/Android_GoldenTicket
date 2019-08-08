@@ -1,7 +1,7 @@
 package com.dazzi.goldenticket.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.dazzi.goldenticket.adapter.TutorialSliderAdapter
 import kotlinx.android.synthetic.main.activity_tutorial.*
