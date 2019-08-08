@@ -18,7 +18,7 @@ import org.jetbrains.anko.startActivity
 
 class CardDetailRVAdapter(val ctx: Context, val dataList: ArrayList<ContentDetailData>): RecyclerView.Adapter<CardDetailRVAdapter.Holder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): Holder {
-        val view: View = LayoutInflater.from(ctx).inflate(com.dazzi.goldenticket.R.layout.rv_month_contents_item,p0,false)
+        val view: View = LayoutInflater.from(ctx).inflate(com.dazzi.goldenticket.R.layout.rv_main_month_show,p0,false)
         return Holder(view)
     }
 

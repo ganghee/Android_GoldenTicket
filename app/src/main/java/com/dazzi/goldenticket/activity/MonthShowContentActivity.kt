@@ -1,19 +1,20 @@
 package com.dazzi.goldenticket.activity
 
+import android.annotation.SuppressLint
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.dazzi.goldenticket.adapter.CardDetailRVAdapter
-import com.dazzi.goldenticket.data.ContentDetailData
+import com.dazzi.goldenticket.R
+import com.dazzi.goldenticket.adapter.MonthShowDetailAdapter
+import com.dazzi.goldenticket.data.MonthShowDetailContentData
 import com.dazzi.goldenticket.network.Controller
 import com.dazzi.goldenticket.network.NetworkService
 import com.dazzi.goldenticket.network.get.GetCardDetailResponse
-import com.dazzi.goldenticket.R
 import kotlinx.android.synthetic.main.activity_month_contents.*
 import kotlinx.android.synthetic.main.close_custom_actionbar.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -27,6 +28,7 @@ class ContentActivity : AppCompatActivity() {
         Controller.instance.networkService
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_month_contents)
@@ -46,36 +48,36 @@ class ContentActivity : AppCompatActivity() {
 
 
         /** 카드 상세 조회 **/
-        var contentDetailDataList: ArrayList<ContentDetailData>
+        var monthShowDetailContentDataList: ArrayList<MonthShowDetailContentData>
 
-        val getCardDetail = networkService.getCardDetail("application/json",intent.getIntExtra("idx", 2))
-        getCardDetail.enqueue(object: Callback<GetCardDetailResponse>{
+        val getCardDetail = networkService.getCardDetail("application/json", intent.getIntExtra("idx", 2))
+        getCardDetail.enqueue(object : Callback<GetCardDetailResponse> {
             override fun onFailure(call: Call<GetCardDetailResponse>, t: Throwable) {
-                Log.e("Get CardDetail Failed: ",t.toString())
+                Log.e("Get CardDetail Failed: ", t.toString())
             }
 
             override fun onResponse(call: Call<GetCardDetailResponse>, response: Response<GetCardDetailResponse>) {
-                if(response.isSuccessful){
-                    if(response.body()!!.status == 200){
+                if (response.isSuccessful) {
+                    if (response.body()!!.status == 200) {
                         Glide.with(applicationContext)
                             .load(response.body()!!.data.image_url)
                             .into(ivCardImage)
 
-                        var tempContentArray: List<String> = response.body()!!.data.title.split("/r")
-                        var tempString: String = ""
-                        for(i in 0..tempContentArray.size-1){
-                            tempString += tempContentArray[i]+" "
+                        val tempContentArray: List<String> = response.body()!!.data.title.split("/r")
+                        var tempString = ""
+                        for (i in 0 until tempContentArray.size) {
+                            tempString += tempContentArray[i] + " "
                         }
-                        tvCardTitle.text=tempString
+                        tvCardTitle.text = tempString
 
-                        response.body()!!.data.card_content = response.body()!!.data.card_content.replace(" ","\u00A0")
-                        tvCardContent.text=response.body()!!.data.card_content
+                        response.body()!!.data.card_content = response.body()!!.data.card_content.replace(" ", "\u00A0")
+                        tvCardContent.text = response.body()!!.data.card_content
 
-                        contentDetailDataList = response.body()!!.data.content
+                        monthShowDetailContentDataList = response.body()!!.data.monthShowContent
 
-                        var cardDetailRVAdapter: CardDetailRVAdapter = CardDetailRVAdapter(applicationContext,contentDetailDataList)
-                        rvContent.adapter = cardDetailRVAdapter
-                        rvContent.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL,false)
+                        val monthShowDetailAdapter = MonthShowDetailAdapter()
+                        rvContent.adapter = monthShowDetailAdapter
+                        rvContent.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
                         rvContent.setHasFixedSize(true)
                     }
                 }
