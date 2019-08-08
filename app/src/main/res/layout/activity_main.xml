@@ -28,7 +28,7 @@
                 app:tabMode="fixed"
                 app:tabTextAppearance="@style/tabText"
                 app:tabTextColor="@color/colorGray"
-                app:tabSelectedTextColor="@color/colorPrimaryYellow"
+                app:tabSelectedTextColor="@color/colorPrimaryDarkYellow"
                 app:tabBackground="@drawable/tab_color"
         />
         </com.google.android.material.appbar.AppBarLayout>
