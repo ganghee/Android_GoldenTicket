@@ -17,18 +17,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tb_mylottery_payment">
-        <!--<ImageView
-                android:id="@+id/iv_mylottery_payment_poster"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-4dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/img_ticket_body" />-->
+
         <RelativeLayout
                 android:id="@+id/rl_mylottery_payment_poster"
                 android:layout_width="260dp"
                 android:layout_height="350dp"
-                android:layout_marginTop="-8dp"
                 android:layout_centerHorizontal="true"
                 android:foreground="@drawable/style_mylottery_detail_ticket">
 

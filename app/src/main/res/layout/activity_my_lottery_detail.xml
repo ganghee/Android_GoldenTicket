@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".activity.MyLotteryDetailActivity"
-        android:background="#ffffff" xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_height="match_parent"
+        tools:context=".activity.MyLotteryDetailActivity" android:background="#ffffff">
     <!--nothing-->
     <LinearLayout
             android:id="@+id/ll_mylottery_nothing"
@@ -75,14 +75,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:layout_centerHorizontal="true">
+        >
             <TextView
                     android:layout_width="240dp"
                     android:layout_height="12dp"
                     android:layout_marginTop="12dp"
-                    android:layout_marginLeft="-10dp"
+                    android:layout_marginStart="-10dp"
                     android:layout_centerHorizontal="true"
-                    android:background="@color/colorYellow" />
+                    android:background="@color/colorYellow"/>
             <TextView
                     android:id="@+id/tv_mylottery_nothing_highlight"
                     android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
                     android:textSize="15sp"
                     android:textColor="@color/font_detail"
                     android:fontFamily="@font/notosans_medium"
-                    style="@style/Base.Widget.AppCompat.Button.Borderless" />
+                    style="@style/Base.Widget.AppCompat.Button.Borderless"/>
         </RelativeLayout>
     </LinearLayout>
 
@@ -132,19 +132,13 @@
                 android:id="@+id/rl_mylottery_payment_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingVertical="4dp"
                 android:layout_below="@+id/tb_mylottery_payment">
-            <!--<ImageView
-                    android:id="@+id/iv_mylottery_payment_poster"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-4dp"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/img_ticket_body" />-->
+
             <RelativeLayout
                     android:id="@+id/rl_mylottery_payment_poster"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-8dp"
                     android:layout_centerHorizontal="true"
                     android:foreground="@drawable/style_mylottery_detail_ticket">
 
@@ -152,7 +146,6 @@
                         android:id="@+id/cv_mylottery_payment_poster"
                         android:layout_width="267dp"
                         android:layout_height="340dp"
-                        android:layout_marginVertical="6dp"
                         android:layout_centerInParent="true"
                         app:cardCornerRadius="10dp"
                         android:background="#fff"
@@ -174,15 +167,15 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:text="뮤지컬 벤허"
-                    android:textSize="21sp"
+                    android:textSize="20sp"
                     android:textColor="@android:color/black"
                     android:fontFamily="@font/notosans_semibold"/>
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginLeft="35.3dp"
-                    android:layout_marginRight="34.5dp"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginEnd="36dp"
                     android:layout_below="@+id/tv_mylottery_payment_title"
                     android:layout_alignStart="@+id/rl_mylottery_payment_poster"
                     android:layout_alignEnd="@+id/rl_mylottery_payment_poster">
@@ -341,7 +334,7 @@
                 android:textSize="15sp"
                 android:textColor="@color/font_detail"
                 android:fontFamily="@font/notosans_medium"
-                style="@style/Base.Widget.AppCompat.Button.Borderless" />
+                style="@style/Base.Widget.AppCompat.Button.Borderless"/>
     </RelativeLayout>
 
     <!--after pay-->
@@ -397,15 +390,15 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:orientation="vertical"
-                        android:layout_marginLeft="31dp"
+                        android:layout_marginStart="32dp"
                         android:layout_marginTop="26dp"
-                        android:layout_centerVertical="true">
+                >
                     <TextView
                             android:id="@+id/tv_mylottery_detail_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2019년 6월 15일"
-                            android:textSize="11sp"
+                            android:textSize="12sp"
                             android:textColor="@android:color/black"
                             android:fontFamily="@font/notosans_light"/>
                     <TextView
@@ -442,7 +435,7 @@
                                 android:id="@+id/tv_mylottery_detail_location"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_marginLeft="5dp"
+                                android:layout_marginStart="5dp"
                                 android:text="블루스퀘어"
                                 android:textSize="12sp"
                                 android:textColor="@android:color/black"
@@ -477,8 +470,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:orientation="vertical"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="31dp"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginEnd="31dp"
                         android:layout_marginTop="26dp">
                     <TextView
                             android:id="@+id/tv_mylottery_detail_seat"
@@ -490,8 +483,8 @@
                             android:fontFamily="@font/notosans_medium"/>
                     <ImageView
                             android:id="@+id/iv_mylottery_detail_qrcode"
-                            android:layout_width="92.8dp"
-                            android:layout_height="91.5dp"
+                            android:layout_width="92dp"
+                            android:layout_height="92dp"
                             android:layout_marginTop="5dp"
                             android:src="@drawable/img_qr_code"/>
                 </LinearLayout>
@@ -500,7 +493,7 @@
 
         <Button
                 android:id="@+id/btn_mylottery_detail_submit"
-                android:layout_width="277.5dp"
+                android:layout_width="278dp"
                 android:layout_height="35dp"
                 android:layout_marginBottom="21dp"
                 android:layout_alignParentBottom="true"
@@ -510,6 +503,6 @@
                 android:textSize="15sp"
                 android:textColor="@color/font_detail"
                 android:fontFamily="@font/notosans_medium"
-                style="@style/Base.Widget.AppCompat.Button.Borderless" />
+                style="@style/Base.Widget.AppCompat.Button.Borderless"/>
     </RelativeLayout>
 </RelativeLayout>

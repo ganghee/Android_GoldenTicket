@@ -7,38 +7,32 @@
         android:layout_height="match_parent"
         tools:context=".activity.LotteryNoticeActivity">
 
-    <RelativeLayout
-            android:id="@+id/rl_tb_back"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
+    <ImageButton
+            android:id="@+id/ibtn_lottery_notice_close"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="4dp"
+            android:src="@drawable/bt_close"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="24dp"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="13dp"
-            android:layout_marginRight="20dp"
-
-    >
-        <ImageButton
-                android:id="@+id/ibtn_lottery_notice_close"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="39dp"
-                android:src="@drawable/bt_close"
-                android:background="@android:color/transparent"/>
-    </RelativeLayout>
+            android:layout_marginEnd="128dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@string/todo"/>
 
     <TextView
             android:id="@+id/tvWait"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/rl_tb_back"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:textSize="30sp"
             android:textStyle="bold"
             android:textColor="#fda47a"
             android:lineSpacingExtra="9sp"
-            android:text="잠깐!"/>
+            android:text="@string/moment"
+            android:layout_marginTop="100dp"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
             android:id="@+id/tvNoticeTitleFirst"
@@ -52,7 +46,7 @@
             android:textColor="#262626"
             android:lineSpacingExtra="9sp"
             android:gravity="center_horizontal"
-            android:text="골든티켓은 무작위 추첨으로"/>
+            android:text="@string/title_first"/>
 
     <TextView
             android:id="@+id/tvNoticeTitleSecond"
@@ -66,9 +60,7 @@
             android:textColor="#262626"
             android:lineSpacingExtra="9sp"
             android:gravity="center_horizontal"
-            android:text="티켓을 판매합니다."/>
-
-
+            android:text="@string/title_second"/>
 
     <ImageView
             android:id="@+id/ivNotice"
@@ -78,7 +70,9 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="37dp"
             app:layout_constraintTop_toBottomOf="@+id/tvNoticeTitleSecond"
-            android:src="@drawable/notice"/>
+            android:src="@drawable/notice"
+            android:contentDescription="@string/todo"
+    />
 
     <FrameLayout
             android:id="@+id/flNotice"
@@ -94,6 +88,7 @@
                 android:layout_height="10dp"
                 android:layout_gravity="bottom|center"
                 android:src="@color/colorYellow"
+                android:contentDescription="@string/todo"
         />
         <TextView
                 android:id="@+id/tvNoticeFirst"
@@ -104,7 +99,7 @@
                 android:textSize="14sp"
                 android:textColor="#262626"
                 android:lineSpacingExtra="9sp"
-                android:text="당첨 후 결제가 이루어지지 않으면"
+                android:text="@string/notice_first"
         />
     </FrameLayout>
 
@@ -122,6 +117,7 @@
                 android:layout_height="10dp"
                 android:layout_gravity="bottom|center"
                 android:src="@color/colorYellow"
+                android:contentDescription="@string/todo"
         />
         <TextView
                 android:id="@+id/tvNoticeSecond"
@@ -132,7 +128,7 @@
                 android:textSize="14sp"
                 android:textColor="#262626"
                 android:lineSpacingExtra="9sp"
-                android:text="노쇼로 간주되어 패널티가 적용되오니"
+                android:text="@string/notice_second"
         />
     </FrameLayout>
 
@@ -144,7 +140,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/flNoticeSecond"
             android:layout_marginTop="7dp"
-            android:text="신중하게 응모해주세요!"
+            android:text="@string/notice_third"
             android:textSize="14sp"
             android:textColor="#262626"
             android:lineSpacingExtra="9sp"/>
@@ -160,7 +156,7 @@
             app:layout_constraintTop_toBottomOf="@id/tvNoticeThird"
             app:layout_constraintBottom_toBottomOf="parent"
             android:background="@drawable/ripple_effect"
-            android:text="응모하기"
+            android:text="@string/btn_lottery"
             android:textSize="17sp"
             android:textColor="#262626"
             android:layout_gravity="center"

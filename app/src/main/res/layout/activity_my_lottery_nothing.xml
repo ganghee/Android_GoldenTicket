@@ -8,23 +8,24 @@
         android:orientation="vertical"
         tools:context=".activity.MyLotteryNothingActivity">
 
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <ImageButton
-                android:id="@+id/ibtn_mylottery_nothing_close"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginTop="13dp"
-                android:layout_marginRight="25dp"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/bt_close"
-                android:background="@android:color/transparent"/>
-    </RelativeLayout>
+    <ImageButton
+            android:id="@+id/ibtn_lottery_nothing_close"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="4dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/bt_close"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_gravity="end"
+    />
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp">
+            android:layout_marginTop="30dp">
         <TextView
                 android:id="@+id/tv_mylottery_nothing_title"
                 android:layout_width="wrap_content"
@@ -76,7 +77,7 @@
                 android:layout_width="230dp"
                 android:layout_height="12dp"
                 android:layout_marginTop="11dp"
-                android:layout_marginLeft="-10dp"
+                android:layout_marginStart="-10dp"
                 android:layout_centerHorizontal="true"
                 android:background="@color/colorYellow" />
         <TextView

@@ -7,38 +7,32 @@
         android:layout_height="match_parent"
         tools:context=".activity.LotteryCompleteActivity">
 
-    <RelativeLayout
-            android:id="@+id/rl_tb_back"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="13dp"
-            android:layout_marginRight="20dp"
 
-    >
-        <ImageButton
-                android:id="@+id/ibtn_lottery_complete_close"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="39dp"
-                android:src="@drawable/bt_close"
-                android:background="@android:color/transparent"/>
-    </RelativeLayout>
+    <ImageButton
+            android:id="@+id/ibtn_lottery_complete_close"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="4dp"
+            android:src="@drawable/bt_close"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
             android:id="@+id/tvLotteryComplete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/rl_tb_back"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:textSize="23sp"
             android:textStyle="bold"
             android:textColor="#fda47a"
             android:lineSpacingExtra="9sp"
-            android:text="응모 완료"/>
+            android:text="@string/textView_lottery_complete"
+            android:layout_marginTop="100dp"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
             android:id="@+id/ivComplete"
@@ -74,7 +68,7 @@
                 android:textSize="14sp"
                 android:textColor="#262626"
                 android:lineSpacingExtra="9sp"
-                android:text="당첨 결과는 공연 시작 2시간 전, 발표됩니다."
+                android:text="@string/textview_comment_first"
         />
     </FrameLayout>
 
@@ -86,7 +80,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/flComment"
-            android:text="푸시알림이 설정되어 있는지 확인해주세요."
+            android:text="@string/textview_comment_second"
             android:textSize="14sp"
             android:textColor="#262626"
             android:lineSpacingExtra="9sp"/>
@@ -99,7 +93,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvCommentSecond"
-            android:text="민정님 행운을 빌어요!"
+            android:text="@string/textview_comment_luck"
             android:textSize="15sp"
             android:textColor="#262626"
             android:lineSpacingExtra="9sp"/>
@@ -114,7 +108,7 @@
             app:layout_constraintTop_toBottomOf="@id/tvCommentLuck"
             app:layout_constraintBottom_toBottomOf="parent"
             android:background="@drawable/ripple_effect"
-            android:text="확인"
+            android:text="@string/confirm"
             android:textSize="17sp"
             android:textColor="#262626"
             android:layout_gravity="center"

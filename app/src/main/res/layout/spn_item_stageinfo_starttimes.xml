@@ -5,7 +5,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:background="#ffffff"
-        android:paddingLeft="20dp"
+        android:paddingStart="20dp"
         android:textSize="14sp"
         android:textColor="@color/font_detail"
         android:fontFamily="@font/notosans_light"
