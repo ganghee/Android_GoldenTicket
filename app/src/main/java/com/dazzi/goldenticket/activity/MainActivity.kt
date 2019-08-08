@@ -1,14 +1,17 @@
 package com.dazzi.goldenticket.activity
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.dazzi.goldenticket.R
 import com.dazzi.goldenticket.adapter.MainPagerAdapter
+import com.dazzi.goldenticket.data.MyLotteryData
 import com.dazzi.goldenticket.db.SharedPreferenceController.getUserName
 import com.dazzi.goldenticket.db.SharedPreferenceController.getUserToken
+import com.dazzi.goldenticket.network.Controller
+import com.dazzi.goldenticket.network.NetworkService
+import com.dazzi.goldenticket.network.get.GetMyLotteryResponse
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.tabs.TabLayout.GRAVITY_FILL
 import com.google.firebase.iid.FirebaseInstanceId
@@ -17,24 +20,31 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_my_lottery.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
-
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
     private val backButtonSubject: io.reactivex.subjects.Subject<Long> =
         BehaviorSubject.createDefault(0L)
     lateinit var backPressedDisposable: Disposable
+    var dataCount = 0
+    val networkService: NetworkService by lazy {
+        Controller.instance.networkService
+    }
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(com.dazzi.goldenticket.R.layout.activity_main)
 
         configureMainTab()
-
+        //통신을 통해 당첨 티켓 갯수를 가져옴
+        getMyLotteryResponse()
 
         //뒤로가기 버튼을 한 번 누른 뒤 1.5초 이내에 한 번 더 누르면 종료가 된다.
         backPressedDisposable = backButtonSubject
@@ -58,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                 val token = task.result?.token
 
                 // Log and toast
-                val msg = getString(R.string.msg_token_fmt, token)
+                val msg = getString(com.dazzi.goldenticket.R.string.msg_token_fmt, token)
                 Log.d("TAG", msg)
             })
         Log.d("TOKENTEST: ", getUserToken(this))
@@ -81,12 +91,14 @@ class MainActivity : AppCompatActivity() {
 
         /** 드로워 부분 **/
         drawerSelected()
+
+
     }
 
     private fun configureMainTab() {
 
         tabLayout.tabGravity = GRAVITY_FILL
-        viewPager.adapter = MainPagerAdapter(supportFragmentManager, 2)
+        viewPager.adapter = MainPagerAdapter(supportFragmentManager)
         viewPager.offscreenPageLimit = 2
         tabLayout.setupWithViewPager(viewPager)
     }
@@ -124,4 +136,25 @@ class MainActivity : AppCompatActivity() {
         backButtonSubject.onNext(System.currentTimeMillis())
     }
 
+    private fun getMyLotteryResponse() {
+
+        val token = getUserToken(this)
+
+        val getMyLotteryResponse = networkService.getMyLotteryResponse("application/json", token)
+        getMyLotteryResponse.enqueue(object : Callback<GetMyLotteryResponse> {
+            override fun onFailure(call: Call<GetMyLotteryResponse>, t: Throwable) {
+            }
+
+            override fun onResponse(call: Call<GetMyLotteryResponse>, response: Response<GetMyLotteryResponse>) {
+                if (response.isSuccessful) {
+
+                    dataCount = response.body()?.data!!.size
+                    tv_win_num.text = dataCount.toString()
+
+
+                } else {
+                }
+            }
+        })
+    }
 }
