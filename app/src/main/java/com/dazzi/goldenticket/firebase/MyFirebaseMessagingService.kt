@@ -42,7 +42,7 @@ class MyFirebaseMessagingService  : FirebaseMessagingService(){
     @RequiresApi(Build.VERSION_CODES.O)
     private fun sendNotification(remoteMessage: RemoteMessage) {
         val title = remoteMessage.data["title"]
-        val content = remoteMessage.data["content"]
+        val content = remoteMessage.data["monthShowContent"]
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val NOTIFICATION_CHANNEL_ID = "Golden Ticket"
