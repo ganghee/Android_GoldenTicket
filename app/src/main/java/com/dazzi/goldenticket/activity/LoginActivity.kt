@@ -2,11 +2,16 @@ package com.dazzi.goldenticket.activity
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.View
+import com.dazzi.goldenticket.R
 import com.dazzi.goldenticket.db.SharedPreferenceController
 import com.dazzi.goldenticket.network.Controller
 import com.dazzi.goldenticket.network.NetworkService
+import com.dazzi.goldenticket.network.post.PostLoginResponse
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import kotlinx.android.synthetic.main.activity_login.*
@@ -16,13 +21,9 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import android.text.Editable
-import com.dazzi.goldenticket.network.post.PostLoginResponse
-import com.dazzi.goldenticket.R
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.iid.FirebaseInstanceId
 
 
+@Suppress("CAST_NEVER_SUCCEEDS")
 class LoginActivity : BaseActivity() {
 
     val networkService: NetworkService by lazy {
@@ -43,7 +44,7 @@ class LoginActivity : BaseActivity() {
 
             val loginUId = et_loginactivity_id.text.toString()
             val loginUPw: String = et_loginactivity_pw.text.toString()
-            var fcmToken : String?
+            var fcmToken: String?
 
             FirebaseInstanceId.getInstance().instanceId
                 .addOnCompleteListener(OnCompleteListener { task ->
@@ -59,15 +60,10 @@ class LoginActivity : BaseActivity() {
                     val msg = getString(R.string.msg_token_fmt, fcmToken)
                     Log.d("TAG", msg)
 
-                    //toast("$$$$$$$$"+fcm_token)
                     //아이디와 패스워드에 데이터가 있는지 검색하고
                     //있으면 서버에게 전달하여 로그인 요청
                     if (isValid(loginUId, loginUPw)) postLoginResponse(loginUId, loginUPw, fcmToken!!)
                 })
-
-            /*//아이디와 패스워드에 데이터가 있는지 검색하고
-            //있으면 서버에게 전달하여 로그인 요청
-            if (isValid(login_u_id, login_u_pw)) postLoginResponse(login_u_id, login_u_pw, fcm_token!!)*/
         }
 
         //회원 가입 버튼을 눌렀을 때 이벤트
@@ -78,22 +74,26 @@ class LoginActivity : BaseActivity() {
 
     //아이디와 패스워드가 모두 채워져 있는지 확인 없으면 포커스
     private fun isValid(u_id: String, u_pw: String): Boolean {
-        if (u_id == "") {
-            et_loginactivity_id.requestFocus()
-            toast("이메일 주소를 입력하세요")
-        } else if (u_pw == "") {
-            et_loginactivity_pw.requestFocus()
-            toast("비밀번호를 입력하세요")
-        } else return true
+        when {
+            u_id == "" -> {
+                et_loginactivity_id.requestFocus()
+                toast("이메일 주소를 입력하세요")
+            }
+            u_pw == "" -> {
+                et_loginactivity_pw.requestFocus()
+                toast("비밀번호를 입력하세요")
+            }
+            else -> return true
+        }
         return false
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
 
-        var idText = et_loginactivity_id.text.toString()
-        var pwText = et_loginactivity_pw.text.toString()
-        setContentView(com.dazzi.goldenticket.R.layout.activity_login)
+        val idText = et_loginactivity_id.text.toString()
+        val pwText = et_loginactivity_pw.text.toString()
+        setContentView(R.layout.activity_login)
         et_loginactivity_id.text = idText as Editable
         et_loginactivity_pw.text = pwText as Editable
     }
@@ -112,10 +112,10 @@ class LoginActivity : BaseActivity() {
     }
 
     //서버에 로그인 요청
-    private fun postLoginResponse(u_id: String, u_pw: String, fcm_token :String) {
+    private fun postLoginResponse(u_id: String, u_pw: String, fcm_token: String) {
 
         //id,password를 받아서 JSON객체로 만든다.
-        var jsonObject = JSONObject()
+        val jsonObject = JSONObject()
         jsonObject.put("email", u_id)
         jsonObject.put("password", u_pw)
         jsonObject.put("fcm_token", fcm_token)
