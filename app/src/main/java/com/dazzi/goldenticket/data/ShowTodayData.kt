@@ -1,6 +1,6 @@
 package com.dazzi.goldenticket.data
 
-data class ShowData(
+data class ShowTodayData(
     val show_idx: Int,
     val image_url: String,
     val name: String,
