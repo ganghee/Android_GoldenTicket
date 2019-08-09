@@ -5,14 +5,14 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import kotlinx.android.synthetic.main.toolbar_drawer.*
 import androidx.preference.SwitchPreferenceCompat
 import com.dazzi.goldenticket.db.SharedPreferenceController.clearUserToken
 import com.dazzi.goldenticket.db.SharedPreferenceController.getUserName
 import com.dazzi.goldenticket.db.SharedPreferenceController.getUserToken
 import com.dazzi.goldenticket.network.Controller
-import com.dazzi.goldenticket.network.delete.DeleteUserResponse
 import com.dazzi.goldenticket.network.NetworkService
+import com.dazzi.goldenticket.network.delete.DeleteUserResponse
+import kotlinx.android.synthetic.main.toolbar_drawer.*
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.startActivity
@@ -46,7 +46,7 @@ class SettingsActivity : AppCompatActivity() {
 
     class SettingsFragment : PreferenceFragmentCompat() {
 
-        val networkService : NetworkService by lazy {
+        val networkService: NetworkService by lazy {
             Controller.instance.networkService
         }
 
@@ -62,7 +62,7 @@ class SettingsActivity : AppCompatActivity() {
 
 
             //관심있는 공연 스위치 이벤트
-            switchKeepPreferences!!.setOnPreferenceChangeListener { preference, newValue ->
+            switchKeepPreferences!!.setOnPreferenceChangeListener { _, newValue ->
                 if (newValue as Boolean) {
                     //toast("true")
                 } else {
@@ -93,14 +93,14 @@ class SettingsActivity : AppCompatActivity() {
 
             //TODO: 로그아웃 클릭하면 다이얼로그 화면이 나온다.
             logoutPreferences!!.setOnPreferenceClickListener {
-                alert(title = "로그아웃", message = "로그아웃을 하시겠습니까?"){
-                    positiveButton("Yes"){
+                alert(title = "로그아웃", message = "로그아웃을 하시겠습니까?") {
+                    positiveButton("Yes") {
                         clearUserToken(ctx)
                         toast("로그아웃을 하였습니다.")
                         startActivity<LoginActivity>()
 
                     }
-                    negativeButton("No"){
+                    negativeButton("No") {
                         toast("로그아웃을 취소하였습니다.")
                     }
                 }.show()
@@ -109,36 +109,37 @@ class SettingsActivity : AppCompatActivity() {
 
             //TODO: 회원탈퇴 클릭하면 다이얼로그 화면이 나온다.
             withdrawalPreferences!!.setOnPreferenceClickListener {
-                alert(title = "회원탈퇴", message = "탈퇴를 하시겠습니까?"){
-                    positiveButton("Yes"){
+                alert(title = "회원탈퇴", message = "탈퇴를 하시겠습니까?") {
+                    positiveButton("Yes") {
                         deleteUserResponse(getUserToken(ctx))
                         toast("탈퇴가 되었습니다.")
                     }
-                    negativeButton("No"){
+                    negativeButton("No") {
                         toast("탈퇴를 취소하였습니다.")
                     }
                 }.show()
                 true
             }
         }
-        fun deleteUserResponse(token : String) {
+
+        fun deleteUserResponse(token: String) {
 
             val deleteUserResponse: Call<DeleteUserResponse> =
                 networkService.deleteUserResponse("application/json", token)
 
             deleteUserResponse.enqueue(object : Callback<DeleteUserResponse> {
                 override fun onFailure(call: Call<DeleteUserResponse>, t: Throwable) {
-                    Log.e("login failed",t.toString())
+                    Log.e("login failed", t.toString())
                     toast("탈퇴가 취소 되었습니다.")
                 }
 
                 override fun onResponse(call: Call<DeleteUserResponse>, response: Response<DeleteUserResponse>) {
 
-                    if(response.isSuccessful){
-                        if(response.body()!!.status == 200){
+                    if (response.isSuccessful) {
+                        if (response.body()!!.status == 200) {
                             //Request Login
                             toast("회원탈퇴가 되었습니다.")
-                            Log.d("login","회원탈퇴가 되었습니다.")
+                            Log.d("login", "회원탈퇴가 되었습니다.")
                             clearUserToken(ctx)
 
                             startActivity<LoginActivity>()
