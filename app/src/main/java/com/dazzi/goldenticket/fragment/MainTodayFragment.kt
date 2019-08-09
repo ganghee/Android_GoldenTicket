@@ -4,7 +4,6 @@ package com.dazzi.goldenticket.fragment
 import android.animation.TimeInterpolator
 import android.graphics.Rect
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -18,11 +17,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.dazzi.goldenticket.R
 import com.dazzi.goldenticket.activity.SearchActivity
-import com.dazzi.goldenticket.adapter.CardListAdapter
 import com.dazzi.goldenticket.adapter.LotteryConfirmAdapter
-import com.dazzi.goldenticket.adapter.ShowMainRecyclerViewAdapter
-import com.dazzi.goldenticket.data.CardListData
-import com.dazzi.goldenticket.data.ShowData
+import com.dazzi.goldenticket.adapter.MainTodayPosterAdapter
+import com.dazzi.goldenticket.adapter.MonthShowListAdapter
+import com.dazzi.goldenticket.data.MonthShowListData
+import com.dazzi.goldenticket.data.ShowTodayData
 import com.dazzi.goldenticket.db.SharedPreferenceController
 import com.dazzi.goldenticket.network.Controller
 import com.dazzi.goldenticket.network.NetworkService
@@ -35,19 +34,20 @@ import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.fragment_main_today.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.ctx
+import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.startActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class MainTodayFragment : Fragment() {
 
-    private val handler = Handler()
     val networkService: NetworkService by lazy {
         Controller.instance.networkService
     }
     var tempNumFragment = 0
-    lateinit var showMainRecyclerViewAdapter: ShowMainRecyclerViewAdapter
+    lateinit var mainTodayPosterAdapter: MainTodayPosterAdapter
     lateinit var lotteryConfirmAdapter: LotteryConfirmAdapter
 
 
@@ -59,19 +59,29 @@ class MainTodayFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_main_today, container, false)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val snapHelper = GravitySnapHelper(Gravity.START)
-        snapHelper.attachToRecyclerView(rv_product)
+        swipeRefreshToday.onRefresh {
+            getMainPosterResponse()
+            getTimerResponse()
+            getMyLotteryCountResponse()
+            getThisMonthResponse()
+        }
 
-        getMainPosterResponse()
-        getTimerResponse()
-        getMyLotteryResponse()
-        configureMainContentsRV()
+        mainTodayPosterAdapter = MainTodayPosterAdapter(ctx)
+        swipeRefreshToday.setColorSchemeResources(
+            R.color.colorPrimaryDarkYellow,
+            R.color.colorPrimaryYellow
+        )
 
         /** 상단 공연 포스터 리사이클러뷰 부분 애니메이션 **/
         configureShowRV()
+
+        getMainPosterResponse()
+        getTimerResponse()
+        getMyLotteryCountResponse()
+        getThisMonthResponse()
 
         //첫 번째 타이머와 두 번째 타이머가 되었을 때 화살표 가시성 설정
         vpLotteryConfirm?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -105,24 +115,14 @@ class MainTodayFragment : Fragment() {
         }
     }
 
-    /*override fun onRestart() {
-        super.onRestart()
-        lotteryConfirmAdapter.notifyDataSetChanged()
-    }*/
-
     private fun configureShowRV() {
-
-        val showDataList: ArrayList<ShowData> = ArrayList()
-        showMainRecyclerViewAdapter = ShowMainRecyclerViewAdapter(ctx, showDataList)
-
         val linearLayoutManager = LinearLayoutManager(
             ctx,
             LinearLayoutManager.HORIZONTAL, false
         )
 
-        rv_product?.apply {
-            adapter = showMainRecyclerViewAdapter
-            setHasFixedSize(true)
+        rv_product.apply {
+            adapter = mainTodayPosterAdapter
             layoutManager = linearLayoutManager
             addItemDecoration(MarginItemDecoration(40, 0))
         }
@@ -143,7 +143,8 @@ class MainTodayFragment : Fragment() {
 
                         val viewHolder = rv_product.findViewHolderForAdapterPosition(pos)
 
-                        val eventparent = viewHolder!!.itemView.findViewById(R.id.cv_main_poster) as CardView
+                        val eventparent =
+                            viewHolder!!.itemView.findViewById(R.id.cv_main_poster) as CardView
                         eventparent.animate().scaleY(0.95f).scaleX(0.95f).setDuration(350)
                             .setInterpolator(AccelerateInterpolator() as TimeInterpolator?)
                             .start()
@@ -156,7 +157,8 @@ class MainTodayFragment : Fragment() {
 
                         val viewHolder = rv_product.findViewHolderForAdapterPosition(pos)
 
-                        val eventparent = viewHolder!!.itemView.findViewById(R.id.cv_main_poster) as CardView
+                        val eventparent =
+                            viewHolder!!.itemView.findViewById(R.id.cv_main_poster) as CardView
                         eventparent.animate().scaleY(0.85f).scaleX(0.85f).setDuration(350)
                             .setInterpolator(AccelerateInterpolator()).start()
 
@@ -165,6 +167,7 @@ class MainTodayFragment : Fragment() {
             })
     }
 
+    //타이머 정보 가져오기
     private fun getTimerResponse() {
 
         val getMainLotteryListResponse = networkService.getLotteryListResponse(
@@ -182,7 +185,6 @@ class MainTodayFragment : Fragment() {
                     if (response.body()!!.status == 200) {
                         tempNumFragment = response.body()!!.data.size
                         //tempNumFragment = 1
-
                         if (tempNumFragment == 0) {
                             vpLotteryConfirm.visibility = View.INVISIBLE
                             tvLotteryNothing.visibility = View.VISIBLE
@@ -214,8 +216,8 @@ class MainTodayFragment : Fragment() {
 
     /*리사이클러뷰 간격*/
     class MarginItemDecoration(
-        private
-        val first_space: Int, private val space: Int
+        private val first_space: Int,
+        private val space: Int
     ) :
         RecyclerView.ItemDecoration() {
         override fun getItemOffsets(
@@ -233,45 +235,41 @@ class MainTodayFragment : Fragment() {
         }
     }
 
-    private fun configureMainContentsRV() {
+    private fun getThisMonthResponse() {
         //progressON("Loading...")
-        lateinit var cardListAdapter: CardListAdapter
-
+        lateinit var monthShowListAdapter: MonthShowListAdapter
 
         val getCardList = networkService.getCardList("application/json")
         getCardList.enqueue(object : Callback<GetCardListResponse> {
             override fun onFailure(call: Call<GetCardListResponse>, t: Throwable) {
                 Log.e("Get Card List Failed: ", t.toString())
+                swipeRefreshToday.isRefreshing = false
             }
 
             override fun onResponse(call: Call<GetCardListResponse>, response: Response<GetCardListResponse>) {
-
-
+                swipeRefreshToday.isRefreshing = false
                 if (response.isSuccessful) {
                     if (response.body()!!.status == 200) {
-                        val cardListDataList: ArrayList<CardListData> = response.body()!!.data
+                        val monthShowListDataList: ArrayList<MonthShowListData> = response.body()!!.data
 
-                        cardListAdapter = CardListAdapter(ctx, cardListDataList)
-                        rvContents.adapter = cardListAdapter
+                        monthShowListAdapter = MonthShowListAdapter()
+                        rvContents.adapter = monthShowListAdapter
+                        monthShowListAdapter.setData(monthShowListDataList)
+
                         rvContents.layoutManager =
                             LinearLayoutManager(ctx, RecyclerView.VERTICAL, false)
                         rvContents.setHasFixedSize(true)
 
-
-                        Log.d("TEST", cardListDataList.toString())
-                        Log.d("TEST", cardListDataList.get(0).category)
+                        Log.d("TEST", monthShowListDataList.toString())
+                        Log.d("TEST", monthShowListDataList[0].category)
 
                     }
                 }
             }
-
         })
-
-
     }
 
     private fun getMainPosterResponse() {
-        //showProgressDialog()
 
         val getMainPosterResponse = networkService.getMainPosterResponse(
             "application/json"
@@ -279,25 +277,26 @@ class MainTodayFragment : Fragment() {
         getMainPosterResponse.enqueue(object : Callback<GetMainPosterResponse> {
             override fun onFailure(call: Call<GetMainPosterResponse>, t: Throwable) {
                 Log.e("Main Poster List Fail", t.toString())
+
             }
 
             override fun onResponse(call: Call<GetMainPosterResponse>, response: Response<GetMainPosterResponse>) {
-                //hideProgressDialog()
 
                 if (response.isSuccessful) {
                     if (response.body()?.status == 200) {
-                        val tmp: ArrayList<ShowData>? = response.body()?.data
-                        showMainRecyclerViewAdapter.dataList = tmp
-                        showMainRecyclerViewAdapter.notifyDataSetChanged()
+                        val tmp: List<ShowTodayData>? = response.body()?.data
+                        mainTodayPosterAdapter.setData(tmp!!)
+
+                        Log.d("ShowTodayData", "" + tmp)
 
                         when (tmp) {
-                            emptyList<ShowData>() -> {
-                                rv_product.visibility = View.GONE
-                                empty_view.visibility = View.VISIBLE
+                            emptyList<ShowTodayData>() -> {
+                                rv_product?.visibility = View.GONE
+                                img_main_no_poster.visibility = View.VISIBLE
                             }
                             else -> {
-                                rv_product.visibility = View.VISIBLE
-                                empty_view.visibility = View.GONE
+                                rv_product?.visibility = View.VISIBLE
+                                img_main_no_poster.visibility = View.GONE
                             }
                         }
                     }
@@ -306,7 +305,7 @@ class MainTodayFragment : Fragment() {
         })
     }
 
-    private fun getMyLotteryResponse() {
+    private fun getMyLotteryCountResponse() {
 
         val getMyLotteryResponse = networkService.getMyLotteryResponse(
             "application/json",
@@ -322,10 +321,9 @@ class MainTodayFragment : Fragment() {
                 response: Response<GetMyLotteryResponse>
             ) {
                 if (response.isSuccessful) {
-                    Log.e("MainActivity::", "getMyLotteryResponse::onResponse::" + response.body()!!.message)
+                    Log.e("MainActivity::", "getMyLotteryCountResponse::onResponse::" + response.body()!!.message)
                     val size = response.body()!!.data.size
                     tv_win_num?.text = size.toString()
-
                 }
             }
         })
