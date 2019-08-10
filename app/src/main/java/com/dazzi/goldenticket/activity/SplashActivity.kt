@@ -22,13 +22,11 @@ class SplashActivity : AppCompatActivity() {
         )
         setContentView(R.layout.activity_splash)
 
-
         Glide.with(this)
             .load(R.drawable.splash)
             .into(iv_splash)
 
     }
-
     override fun onStart() {
         super.onStart()
 
@@ -38,8 +36,8 @@ class SplashActivity : AppCompatActivity() {
 
     //토큰을 받아와서 아이디가 있는지 확인
     //저장된 아이디가 있으면 메인화면으로 없으면 로그인 화면으로 넘어간다.
-    internal val startConfirmUser: Runnable = Runnable {
-        if(SharedPreferenceController.getUserToken(this)!!.isEmpty()){
+    private val startConfirmUser: Runnable = Runnable {
+        if(SharedPreferenceController.getUserToken(this).isEmpty()){
             startActivity<TutorialActivity>()
             finish()
         }else {
