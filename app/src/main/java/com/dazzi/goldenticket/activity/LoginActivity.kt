@@ -58,7 +58,7 @@ class LoginActivity : BaseActivity() {
 
                     // Log and toast
                     val msg = getString(R.string.msg_token_fmt, fcmToken)
-                    Log.d("TAG", msg)
+                    Log.d("@@@@TAG", msg)
 
                     //아이디와 패스워드에 데이터가 있는지 검색하고
                     //있으면 서버에게 전달하여 로그인 요청
