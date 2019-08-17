@@ -6,7 +6,7 @@
         android:layout_height="wrap_content"
         android:background="#fff"
         app:contentInsetStart="0dp" android:id="@+id/toolbar"
-        app:layout_scrollFlags="scroll"
+        app:layout_scrollFlags="scroll|enterAlways"
 >
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
