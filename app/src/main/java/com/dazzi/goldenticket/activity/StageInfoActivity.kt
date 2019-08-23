@@ -4,28 +4,28 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-
+import com.dazzi.goldenticket.R
 import com.dazzi.goldenticket.adapter.StageInfoActorsRVAdapter
 import com.dazzi.goldenticket.adapter.StageInfoImgsRVAdpater
-import com.dazzi.goldenticket.db.SharedPreferenceController
 import com.dazzi.goldenticket.data.StageInfoActorsData
 import com.dazzi.goldenticket.data.StageInfoData
 import com.dazzi.goldenticket.data.StageInfoImgsData
 import com.dazzi.goldenticket.data.StageInfoSchedulesData
+import com.dazzi.goldenticket.db.SharedPreferenceController
 import com.dazzi.goldenticket.network.Controller
+import com.dazzi.goldenticket.network.NetworkService
 import com.dazzi.goldenticket.network.delete.DeleteShowLikeResponse
 import com.dazzi.goldenticket.network.get.GetStageInfoResponse
-import com.dazzi.goldenticket.network.NetworkService
 import com.dazzi.goldenticket.network.post.PostShowLikeResponse
-import com.dazzi.goldenticket.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-
 import kotlinx.android.synthetic.main.activity_stage_info.*
 import kotlinx.android.synthetic.main.fragment_stage_info_entry_dialog.*
 import kotlinx.android.synthetic.main.toolbar_stage_info.*
@@ -39,9 +39,9 @@ class StageInfoActivity : BaseActivity() {
     val networkService: NetworkService by lazy {
         Controller.instance.networkService
     }
-    var actors: ArrayList<StageInfoActorsData> = ArrayList()
-    var imgs: ArrayList<StageInfoImgsData> = ArrayList()
-    var schedules: ArrayList<StageInfoSchedulesData> = ArrayList()
+    var actors: List<StageInfoActorsData> = ArrayList()
+    var stageImgs : List<StageInfoImgsData> = ArrayList()
+    var schedules: List<StageInfoSchedulesData> = ArrayList()
     var times: MutableMap<String, Int> = mutableMapOf()
 
     var showIdx: Int = -1
@@ -53,10 +53,10 @@ class StageInfoActivity : BaseActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         setContentView(R.layout.activity_stage_info)
 
-        showIdx = intent.getIntExtra("idx",-1)
+        showIdx = intent.getIntExtra("idx", -1)
 
+        setRecyclerView()
         getStageInfoResponse()
-
         setOnClickListener()
     }
 
@@ -165,16 +165,13 @@ class StageInfoActivity : BaseActivity() {
     }
 
     private fun setRecyclerView() {
-
-        Log.d("StageInfoActivity::", "getStageInfoResponse::setRecyclerView:: " + actors.toString())
-        rv_stageinfo_actors.adapter = StageInfoActorsRVAdapter(this@StageInfoActivity, actors)
         rv_stageinfo_actors.layoutManager =
             LinearLayoutManager(this@StageInfoActivity, LinearLayoutManager.HORIZONTAL, false)
-
-        Log.d("StageInfoActivity::", "getStageInfoResponse::setRecyclerView:: " + imgs.toString())
-        rv_stageinfo_imgs.adapter = StageInfoImgsRVAdpater(this, imgs)
         rv_stageinfo_imgs.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
+
+        Log.d("StageInfoActivity::", "getStageInfoResponse::setRecyclerView:: " + stageImgs.toString())
+        Log.d("StageInfoActivity::", "getStageInfoResponse::setRecyclerView:: " + actors.toString())
     }
 
     private fun setSpinner(times: MutableMap<String, Int>) {
@@ -242,27 +239,28 @@ class StageInfoActivity : BaseActivity() {
 
                 if (response.isSuccessful) {
 
-                    var tempData: StageInfoData = response.body()!!.data
+                    Log.d("@#@#@###",""+response.body()!!.data.imageUrl)
                     Glide.with(this@StageInfoActivity)
-                        .load(response.body()!!.data.image_url)
+                        .load(response.body()!!.data.imageUrl)
                         .into(iv_stageinfo_bg)
                     Glide.with(this@StageInfoActivity)
-                        .load(response.body()!!.data.image_url)
+                        .load(response.body()!!.data.imageUrl)
                         .into(iv_stageinfo_poster)
                     tv_stageinfo_title.text = response.body()!!.data.name
-                    tv_stageinfo_costprice.text = response.body()!!.data.original_price + "원"
-                    tv_stageinfo_saleprice.text = response.body()!!.data.discount_price + "원"
+                    tv_stageinfo_costprice.text = response.body()!!.data.originalPrice + "원"
+                    tv_stageinfo_saleprice.text = response.body()!!.data.discountPrice + "원"
                     tv_stageinfo_date.text = response.body()!!.data.duration
                     tv_stageinfo_location.text = response.body()!!.data.location
 
-                    ibtn_stageinfo_like.isSelected = response.body()!!.data.is_liked == 1
+                    ibtn_stageinfo_like.isSelected = response.body()!!.data.isLiked == 1
 
                     actors = response.body()!!.data.artist
                     Log.d("StageInfoActivity::", "getStageInfoResponse::actors:: " + actors.toString())
-                    imgs = response.body()!!.data.poster
-                    Log.d("StageInfoActivity::", "getStageInfoResponse::imgs:: " + imgs.toString())
+                    stageImgs = response.body()!!.data.poster
+                    Log.d("!@!@!@::", "getStageInfoResponse::imgs:: " + stageImgs)
 
-                    setRecyclerView()
+                    rv_stageinfo_actors.adapter = StageInfoActorsRVAdapter(this@StageInfoActivity, actors)
+                    rv_stageinfo_imgs.adapter = StageInfoImgsRVAdpater(this@StageInfoActivity, stageImgs)
 
                     schedules = response.body()!!.data.schedule
                     if (schedules.size == 0) {
@@ -274,8 +272,8 @@ class StageInfoActivity : BaseActivity() {
 
                     } else { // lottery available
                         for (schedule in schedules) { // 공연 스케줄을 모두 가져옴
-                            if (schedule.draw_available == 1) { // 응모가능한(공연시작보다 3시간 이하 남은) 공연 시간을 가져옴
-                                times[schedule.time] = schedule.schedule_idx
+                            if (schedule.drawAvailable == 1) { // 응모가능한(공연시작보다 3시간 이하 남은) 공연 시간을 가져옴
+                                times[schedule.time] = schedule.scheduleIdx
                             }
                         }
                         if (times.isEmpty()) {
