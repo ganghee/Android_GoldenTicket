@@ -14,6 +14,7 @@
             android:supportsRtl="true"
             android:usesCleartextTraffic="true"
             android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"
             tools:ignore="GoogleAppIndexingWarning">
         <service android:name=".firebase.MyFirebaseMessagingService"
                  android:exported="false"
@@ -53,7 +54,7 @@
         <activity android:name=".activity.UserUpdateActivity">
 
         </activity>
-        <activity android:name=".activity.ContentActivity"
+        <activity android:name=".activity.MonthShowContentActivity"
                   android:theme="@style/ContentsActivityTheme">
         </activity>
         <activity android:name=".activity.NoticeActivity"/>

@@ -19,15 +19,15 @@ class SearchTagsRVAdapter(val ctx: Context, val dataList: ArrayList<String>): Re
     override fun getItemCount(): Int = dataList.size
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.tv_search_tag.text = dataList[position]
-        holder.tv_search_tag.marginBottom
-        holder.tv_search_tag.setOnClickListener {
-            var keyword = holder.tv_search_tag.text
+        holder.tvSearchTag.text = dataList[position]
+        holder.tvSearchTag.marginBottom
+        holder.tvSearchTag.setOnClickListener {
+            var keyword = holder.tvSearchTag.text
             //keyword로 검색, 결과값 SearchResultActivity로 전달
         }
     }
 
     inner class Holder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        var tv_search_tag = itemView.findViewById(R.id.tv_search_tag) as TextView
+        var tvSearchTag = itemView.findViewById(R.id.tv_search_tag) as TextView
     }
 }

@@ -13,7 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.dazzi.goldenticket.data.StageInfoActorsData
 import com.dazzi.goldenticket.R
 
-class StageInfoActorsRVAdapter(val ctx: Context, var dataList: ArrayList<StageInfoActorsData>): RecyclerView.Adapter<StageInfoActorsRVAdapter.Holder>() {
+class StageInfoActorsRVAdapter(val ctx: Context, var dataList: List<StageInfoActorsData>): RecyclerView.Adapter<StageInfoActorsRVAdapter.Holder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): Holder {
         val view: View = LayoutInflater.from(ctx).inflate(R.layout.rv_item_stageinfo_actors, viewGroup, false)
@@ -26,28 +26,21 @@ class StageInfoActorsRVAdapter(val ctx: Context, var dataList: ArrayList<StageIn
         //로딩 느려질 시, var options: RequestOptions = RequestOptions().placeholder(R.drawable.placeholder), .apply(options), 이미지 바꾸기
         Log.e("InfoActorsRVAdptr::: ", "onBindViewHolder::actors:: " + dataList[position].image_url)
 
-        /*var data: ByteArray? = null
-        try {
-            data = dataList[position].image_url.toByteArray()
-        } catch (e1: UnsupportedEncodingException) {
-            e1.printStackTrace()
-        }
-        val base64 = Base64.encodeToString(data, Base64.DEFAULT)
-        Log.e("InfoActorsRVAdptr::: ", "onBindViewHolder::actors::base64:: " + base64.toString())*/
 
         Glide.with(ctx)
             .load(dataList[position].image_url)
             .apply(RequestOptions.circleCropTransform())
-            .into(holder.actor_img_url)
-        holder.actor_name.text = dataList[position].name
-        holder.actor_role.text = dataList[position].role
+            .into(holder.actorImgUrl)
+
+        holder.actorName.text = dataList[position].name
+        holder.actorRole.text = dataList[position].role
 
     }
 
     inner class Holder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        var actor_img_url = itemView.findViewById(R.id.iv_stageinfo_actor_img) as ImageView
-        var actor_name = itemView.findViewById(R.id.tv_stageinfo_actor_name) as TextView
-        var actor_role = itemView.findViewById(R.id.tv_stageinfo_actor_role) as TextView
+        var actorImgUrl = itemView.findViewById(R.id.iv_stageinfo_actor_img) as ImageView
+        var actorName = itemView.findViewById(R.id.tv_stageinfo_actor_name) as TextView
+        var actorRole = itemView.findViewById(R.id.tv_stageinfo_actor_role) as TextView
 
     }
 }

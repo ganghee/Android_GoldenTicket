@@ -1,10 +1,13 @@
 package com.dazzi.goldenticket.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.dazzi.goldenticket.R
+import kotlinx.android.synthetic.main.activity_my_lottery_detail.*
 import kotlinx.android.synthetic.main.activity_my_lottery_nothing.*
+import kotlinx.android.synthetic.main.activity_my_lottery_nothing.btn_mylottery_nothing_stagelist
+import kotlinx.android.synthetic.main.activity_my_lottery_nothing.iv_mylottery_nothing_character
 import org.jetbrains.anko.startActivity
 
 class MyLotteryNothingActivity : AppCompatActivity() {
@@ -23,7 +26,7 @@ class MyLotteryNothingActivity : AppCompatActivity() {
             finish()
             startActivity<SearchActivity>()
         }
-        ibtn_mylottery_nothing_close.setOnClickListener {
+        ibtn_lottery_nothing_close.setOnClickListener {
             finish()
         }
     }

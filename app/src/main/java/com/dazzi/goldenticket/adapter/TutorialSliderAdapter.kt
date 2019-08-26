@@ -7,8 +7,8 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.dazzi.goldenticket.R
 import com.dazzi.goldenticket.fragment.TutorialSliderFragment
 
-class TutorialSliderAdapter(fm: FragmentManager?, private val number: Int) : FragmentStatePagerAdapter(
-    fm!!,
+class TutorialSliderAdapter(fm: FragmentManager, private val number: Int) : FragmentStatePagerAdapter(
+    fm,
     BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
 ) {
 

@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.toolbar_drawer.*
 
 class NoticeActivity : AppCompatActivity() {
 
-    val data = arrayListOf<NoticeData>(
+    val data = arrayListOf(
         NoticeData("7월 시스템 점검 안내", "2019-07-11", "안녕하세요. 골든티켓입니다.\n" +
                 "2019년 7월 시스템 정기점검이 진행될 예정입니다.\n" +
                 "점검 시간 동안에는 이용이 제한된다는 점 참고해주시기 바랍니다.\n" +

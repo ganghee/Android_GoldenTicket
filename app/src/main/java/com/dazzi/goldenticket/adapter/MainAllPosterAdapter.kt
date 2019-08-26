@@ -1,5 +1,6 @@
 package com.dazzi.goldenticket.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +11,7 @@ import com.dazzi.goldenticket.data.ShowAllData
 class MainAllPosterAdapter : RecyclerView.Adapter<AllPosterHolder>() {
 
     private val allPosterList = mutableListOf<ShowAllData>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         AllPosterHolder(
             LayoutInflater.from(parent.context).inflate(
@@ -23,6 +25,7 @@ class MainAllPosterAdapter : RecyclerView.Adapter<AllPosterHolder>() {
 
     override fun onBindViewHolder(holder: AllPosterHolder, position: Int) {
         holder.bind(allPosterList[position])
+
     }
 
     fun setData(setAllDataList: List<ShowAllData>) {

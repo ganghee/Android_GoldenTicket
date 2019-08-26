@@ -1,6 +1,7 @@
 package com.dazzi.goldenticket.fragment
 
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.dazzi.goldenticket.network.Controller
 import com.dazzi.goldenticket.network.NetworkService
 import com.dazzi.goldenticket.network.get.GetAllPosterResponse
 import kotlinx.android.synthetic.main.fragment_main_all.*
+import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.onRefresh
 import retrofit2.Call
 import retrofit2.Callback

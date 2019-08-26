@@ -43,18 +43,18 @@ class SearchResultRVAdapter(val ctx: Context, val dataList: ArrayList<SearchData
     override fun onBindViewHolder(holder: Holder, position: Int) {
         Glide.with(ctx)
             .load(dataList[position].image_url)
-            .into(holder.search_result_img_url)
+            .into(holder.searchResultImgUrl)
 
         Log.e("SearchResultRVAdtr::", "onBindViewHolder::is_liked" + dataList[position].is_liked)
 
         when (dataList[position].is_liked) {
             0 -> {
-                holder.search_result_like.isSelected = false
-                holder.search_result_like.setBackgroundResource(R.drawable.icon_like_nofill)
+                holder.searchResultLike.isSelected = false
+                holder.searchResultLike.setBackgroundResource(R.drawable.icon_like_nofill)
             }
             1 -> {
-                holder.search_result_like.isSelected = true
-                holder.search_result_like.setBackgroundResource(R.drawable.icon_like_fill)
+                holder.searchResultLike.isSelected = true
+                holder.searchResultLike.setBackgroundResource(R.drawable.icon_like_fill)
             }
         }
 
@@ -64,14 +64,14 @@ class SearchResultRVAdapter(val ctx: Context, val dataList: ArrayList<SearchData
             ctx.startActivity<StageInfoActivity>("idx" to dataList[position].show_idx)
         }
 
-        holder.search_result_like.setOnClickListener {
+        holder.searchResultLike.setOnClickListener {
 
             /** 좋아요 취소 **/
-            if(holder.search_result_like.isSelected){
+            if(holder.searchResultLike.isSelected){
                 val token = SharedPreferenceController.getUserToken(ctx)
 
-                var jsonObject = JSONObject()
-                jsonObject.put("show_idx", dataList[position].show_idx)
+                val jsonObject = JSONObject()
+                jsonObject.put("showIdx", dataList[position].show_idx)
                 val gsonObject = JsonParser().parse(jsonObject.toString()) as JsonObject
 
                 val deleteShowLike = networkService.deleteShowLike("application/json", token, gsonObject)
@@ -88,8 +88,8 @@ class SearchResultRVAdapter(val ctx: Context, val dataList: ArrayList<SearchData
                             Log.e("SearcyResultRVAdtr::", "like_click_listener::취소::onResponse" + response.body()!!.message)
                             if(response.body()!!.status == 200){
                                 // 통신 완료된 후 no fill like로 변경
-                                holder.search_result_like.isSelected = !holder.search_result_like.isSelected
-                                holder.search_result_like.setBackgroundResource(R.drawable.icon_like_nofill)
+                                holder.searchResultLike.isSelected = !holder.searchResultLike.isSelected
+                                holder.searchResultLike.setBackgroundResource(R.drawable.icon_like_nofill)
                             }
                         }
                     }
@@ -100,8 +100,8 @@ class SearchResultRVAdapter(val ctx: Context, val dataList: ArrayList<SearchData
             else{
                 val token = SharedPreferenceController.getUserToken(ctx)
 
-                var jsonObject = JSONObject()
-                jsonObject.put("show_idx", dataList[position].show_idx) // TODO: 인덱스 값 수정해야함
+                val jsonObject = JSONObject()
+                jsonObject.put("showIdx", dataList[position].show_idx) // TODO: 인덱스 값 수정해야함
                 val gsonObject = JsonParser().parse(jsonObject.toString()) as JsonObject
 
                 val postShowLike = networkService.postShowLike("application/json", token, gsonObject)
@@ -118,8 +118,8 @@ class SearchResultRVAdapter(val ctx: Context, val dataList: ArrayList<SearchData
                             Log.e("SearcyResultRVAdtr::", "like_click_listener::조하::onResponse" + response.body()!!.message)
                             if(response.body()!!.status == 200){
                                 // 통신 완료된 후 fill like로 변경
-                                holder.search_result_like.isSelected = !holder.search_result_like.isSelected
-                                holder.search_result_like.setBackgroundResource(R.drawable.icon_like_fill)
+                                holder.searchResultLike.isSelected = !holder.searchResultLike.isSelected
+                                holder.searchResultLike.setBackgroundResource(R.drawable.icon_like_fill)
                             }
                         }
                     }
@@ -130,7 +130,7 @@ class SearchResultRVAdapter(val ctx: Context, val dataList: ArrayList<SearchData
     }
 
     inner class Holder(itemView: View): RecyclerView.ViewHolder(itemView){
-        var search_result_img_url = itemView.findViewById(com.dazzi.goldenticket.R.id.ivKeepStage) as ImageView
-        var search_result_like = itemView.findViewById(com.dazzi.goldenticket.R.id.ibtnKeepShowLike) as ImageButton
+        val searchResultImgUrl = itemView.findViewById(R.id.ivKeepStage) as ImageView
+        val searchResultLike = itemView.findViewById(R.id.ibtnKeepShowLike) as ImageButton
     }
 }

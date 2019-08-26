@@ -1,15 +1,15 @@
 package com.dazzi.goldenticket.activity
 
 import android.content.res.Configuration
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import com.dazzi.goldenticket.R
 import com.dazzi.goldenticket.network.Controller
 import com.dazzi.goldenticket.network.NetworkService
 import com.dazzi.goldenticket.network.post.PostSignupResponse
-import com.dazzi.goldenticket.R
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import kotlinx.android.synthetic.main.activity_sign_up.*
@@ -22,6 +22,7 @@ import retrofit2.Response
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
+@Suppress("CAST_NEVER_SUCCEEDS")
 class SignUpActivity : AppCompatActivity() {
 
     //이메일 형식 정규화
@@ -48,20 +49,28 @@ class SignUpActivity : AppCompatActivity() {
         //true이면 서버에 회원정보가 저장이 된다.
         //저장이 완료되면 로그인 창으로 넘어간다.
         btn_signactivity_sign.setOnClickListener {
-            val signup_u_email: String = et_signupactivity_email.text.toString()
-            val signup_u_pw: String = et_signupactivity_pw.text.toString()
-            val signup_u_pw2: String = et_signupactivity_pw2.text.toString()
-            val signup_u_name: String = et_signupactivity_name.text.toString()
-            val signup_phone: String = et_signupactivity_phone.text.toString()
+            val signupUEmail: String = et_signupactivity_email.text.toString()
+            val signupUPw: String = et_signupactivity_pw.text.toString()
+            val signupUPw2: String = et_signupactivity_pw2.text.toString()
+            val signupUName: String = et_signupactivity_name.text.toString()
+            val signupPhone: String = et_signupactivity_phone.text.toString()
 
-            val signup_alarm_event : Boolean = cb_event.isChecked
-            val signup_alarm_like : Boolean = cb_like.isChecked
-            val signup_alarm_confirm : Boolean = cb_confirm.isChecked
+            val signupAlarmEvent: Boolean = cb_event.isChecked
+            val signupAlarmLike: Boolean = cb_like.isChecked
+            val signupAlarmConfirm: Boolean = cb_confirm.isChecked
 
             //true인 경우 서버에 회원정보를 저장한다.
-            if (isUserInfoValid(signup_u_name, signup_phone, signup_u_email, signup_u_pw, signup_u_pw2)) {
+            if (isUserInfoValid(signupUName, signupPhone, signupUEmail, signupUPw, signupUPw2)) {
                 //서버와의 연결
-                postSignupResponse(signup_u_email, signup_u_pw, signup_u_name, signup_phone,signup_alarm_event,signup_alarm_like,signup_alarm_confirm)
+                postSignupResponse(
+                    signupUEmail,
+                    signupUPw,
+                    signupUName,
+                    signupPhone,
+                    signupAlarmEvent,
+                    signupAlarmLike,
+                    signupAlarmConfirm
+                )
             }
 
 
@@ -83,18 +92,18 @@ class SignUpActivity : AppCompatActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        val signup_u_email: String = et_signupactivity_email.text.toString()
-        val signup_u_pw: String = et_signupactivity_pw.text.toString()
-        val signup_u_pw2: String = et_signupactivity_pw2.text.toString()
-        val signup_u_name: String = et_signupactivity_name.text.toString()
-        val signup_phone: String = et_signupactivity_phone.text.toString()
-        setContentView(com.dazzi.goldenticket.R.layout.activity_sign_up)
+        val signupUEmail: String = et_signupactivity_email.text.toString()
+        val signupUPw: String = et_signupactivity_pw.text.toString()
+        val signupUPw2: String = et_signupactivity_pw2.text.toString()
+        val signupUName: String = et_signupactivity_name.text.toString()
+        val signupPhone: String = et_signupactivity_phone.text.toString()
+        setContentView(R.layout.activity_sign_up)
 
-        et_signupactivity_email.text = signup_u_email as Editable
-        et_signupactivity_pw.text = signup_u_pw as Editable
-        et_signupactivity_pw2.text = signup_u_pw2 as Editable
-        et_signupactivity_name.text = signup_u_name as Editable
-        et_signupactivity_phone.text = signup_phone as Editable
+        et_signupactivity_email.text = signupUEmail as Editable
+        et_signupactivity_pw.text = signupUPw as Editable
+        et_signupactivity_pw2.text = signupUPw2 as Editable
+        et_signupactivity_name.text = signupUName as Editable
+        et_signupactivity_phone.text = signupPhone as Editable
 
 
     }
@@ -159,27 +168,34 @@ class SignUpActivity : AppCompatActivity() {
             if (hasFocus || et_signupactivity_pw2.text.toString() != "") v.setBackgroundResource(R.drawable.underline_yellow)
             else v.setBackgroundResource(R.drawable.underline_white)
         }
-
     }
 
     //패스워드 형식인지 유효성 검사
-    fun validatePassword(pwStr: String): Boolean {
+    private fun validatePassword(pwStr: String): Boolean {
         val matcher: Matcher = VALID_PASSWOLD_REGEX_ALPHA_NUM.matcher(pwStr)
         return matcher.matches()
     }
 
     //이메일 형식인지 유효성 검사
-    fun validateEmail(emailStr: String): Boolean {
+    private fun validateEmail(emailStr: String): Boolean {
         val matcher: Matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr)
         return matcher.find()
     }
 
 
     //서버에 회원 가입 정보를 저장한다.
-    private fun postSignupResponse(u_id: String, u_pw: String, u_name: String, u_phone: String, alarm_event:Boolean, alarm_like:Boolean,alarm_confirm:Boolean) {
+    private fun postSignupResponse(
+        u_id: String,
+        u_pw: String,
+        u_name: String,
+        u_phone: String,
+        alarm_event: Boolean,
+        alarm_like: Boolean,
+        alarm_confirm: Boolean
+    ) {
 
         //id,password,name 데이터를 받아서 JSON 객체로 만든다.
-        var jsonObject = JSONObject()
+        val jsonObject = JSONObject()
         jsonObject.put("email", u_id)
         jsonObject.put("password", u_pw)
         jsonObject.put("name", u_name)

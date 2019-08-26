@@ -2,6 +2,6 @@
 <ImageView
         android:id="@+id/iv_stageinfo_info_img"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/bt_like_nofill_info" />
+        android:src="@drawable/poster_main_benhur" />

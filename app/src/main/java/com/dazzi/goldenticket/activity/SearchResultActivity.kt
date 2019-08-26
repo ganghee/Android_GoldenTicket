@@ -1,17 +1,17 @@
 package com.dazzi.goldenticket.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import com.dazzi.goldenticket.R
 import com.dazzi.goldenticket.adapter.SearchResultRVAdapter
 import com.dazzi.goldenticket.db.SharedPreferenceController
+import com.dazzi.goldenticket.etc.RecyclerViewDecoration
 import com.dazzi.goldenticket.network.Controller
 import com.dazzi.goldenticket.network.NetworkService
 import com.dazzi.goldenticket.network.post.PostSearchResponse
 import com.dazzi.goldenticket.network.post.SearchData
-import com.dazzi.goldenticket.R
-import com.dazzi.goldenticket.etc.RecyclerViewDecoration
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import kotlinx.android.synthetic.main.activity_search_result.*
@@ -79,11 +79,9 @@ class SearchResultActivity : AppCompatActivity() {
             override fun onResponse(call: Call<PostSearchResponse>, response: Response<PostSearchResponse>) {
                 if (response.isSuccessful) {
                     var tempData: ArrayList<SearchData> = response.body()!!.data
-                    if (tempData != null) {
-                        Log.e("SearchResultActivity::", "postSearchResponse::onResponse::Success:: " + response.body()!!.message)
-                        results = response.body()!!.data
-                        setRecyclerView()
-                    }
+                    Log.e("SearchResultActivity::", "postSearchResponse::onResponse::Success:: " + response.body()!!.message)
+                    results = response.body()!!.data
+                    setRecyclerView()
                 }
                 else {
                     Log.e("SearchResultActivity::", "postSearchResponse::onResponse::Fail:: " + response.body()!!.message)
@@ -104,13 +102,10 @@ class SearchResultActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<PostSearchResponse>, response: Response<PostSearchResponse>) {
                 if (response.isSuccessful) {
-                    var tempData: ArrayList<SearchData> = response.body()!!.data
-                    if (tempData != null) {
-                        Log.e("SearchResultActivity::", "postSearchTagResponse::onResponse::Success::" + response.body()!!.message+ "::" + response.body()!!.data)
-                        results = response.body()!!.data
+                    Log.e("SearchResultActivity::", "postSearchTagResponse::onResponse::Success::" + response.body()!!.message+ "::" + response.body()!!.data)
+                    results = response.body()!!.data
 
-                        setRecyclerView()
-                    }
+                    setRecyclerView()
                 }
                 else {
                     Log.e("SearchResultActivity::", "postSearchTagResponse::onResponse::Fail:: " + response.body()!!.message)

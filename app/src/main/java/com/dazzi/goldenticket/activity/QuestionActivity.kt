@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.toolbar_drawer.*
 
 class QuestionActivity : AppCompatActivity() {
 
-    val dataList = arrayListOf<QuestionData>(
+    val dataList = arrayListOf(
         QuestionData("하루에 응모 가능 개수가 정해져 있나요?", "하루 최대 2개의 공연에 응모하실 수 있습니다."),
         QuestionData(
             "당첨자 선정은 어떻게 이루어지나요?", "당첨자 선정은 랜덤 추첨을 통해 선정됩니다."

@@ -1,19 +1,21 @@
 package com.dazzi.goldenticket.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.dazzi.goldenticket.R
 import com.dazzi.goldenticket.db.SharedPreferenceController
 import com.dazzi.goldenticket.network.Controller
 import com.dazzi.goldenticket.network.NetworkService
 import com.dazzi.goldenticket.network.post.PostShowLikeResponse
-import com.dazzi.goldenticket.R
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import kotlinx.android.synthetic.main.activity_lottery_confirm.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -34,48 +36,50 @@ class LotteryConfirmActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView (R.layout.activity_lottery_confirm)
+        setContentView(R.layout.activity_lottery_confirm)
 
 //        val status = 1
         // LotteryFirstTimerFragment와 LotterySecondTimerFragment에서 status값을 intent로 넘겨준걸 받음
-        var status = intent.getIntExtra("status",1)
+        val status = intent.getIntExtra("status", 1)
 //        var status = 2
-        show_idx = intent.getIntExtra("idx",1)
-        ticket_idx = intent.getIntExtra("ticket_idx",1)
+        show_idx = intent.getIntExtra("idx", 1)
+        ticket_idx = intent.getIntExtra("ticket_idx", 1)
 
-        Log.d("LotteryConfirm: ",show_idx.toString())
+        Log.d("LotteryConfirm: ", show_idx.toString())
 
         setLayoutByStatusCode(status)
         setOnClickListener(status)
     }
 
     private fun setOnClickListener(status: Int) {
-        ibtn_lotteryconfirm_close.setOnClickListener {
+        ibtn_lottery_confirm_close.setOnClickListener {
             finish()
         }
         btn_lotteryconfirm_stagelike.setOnClickListener {
-            alert(title="관심있는 공연 추가", message="추가하시겠습니까?") {
-                positiveButton("Yes"){
+            alert(title = "관심있는 공연 추가", message = "추가하시겠습니까?") {
+                positiveButton("Yes") {
 
-                    var jsonObject = JSONObject()
-                    jsonObject.put("show_idx",show_idx)
+                    val jsonObject = JSONObject()
+                    jsonObject.put("showIdx", show_idx)
                     val gsonObject = JsonParser().parse(jsonObject.toString()) as JsonObject
 
-                    val postShowLike = networkService.postShowLike("application/json",
-                        SharedPreferenceController.getUserToken(ctx), gsonObject)
-                    postShowLike.enqueue(object: Callback<PostShowLikeResponse> {
+                    val postShowLike = networkService.postShowLike(
+                        "application/json",
+                        SharedPreferenceController.getUserToken(ctx), gsonObject
+                    )
+                    postShowLike.enqueue(object : Callback<PostShowLikeResponse> {
                         override fun onFailure(call: Call<PostShowLikeResponse>, t: Throwable) {
-                            Log.e("Delete ShowLike Failed:",t.toString())
+                            Log.e("Delete ShowLike Failed:", t.toString())
                         }
 
                         override fun onResponse(
                             call: Call<PostShowLikeResponse>,
                             response: Response<PostShowLikeResponse>
                         ) {
-                            if(response.isSuccessful){
-                                if(response.body()!!.status == 200){
+                            if (response.isSuccessful) {
+                                if (response.body()!!.status == 200) {
                                     toast("관심있는 공연에 추가하였습니다.")
-                                }else if(response.body()!!.status == 304){
+                                } else if (response.body()!!.status == 304) {
                                     toast("이미 추가되어있습니다.")
                                 }
                             }
@@ -83,25 +87,25 @@ class LotteryConfirmActivity : AppCompatActivity() {
 
                     })
                 }
-                negativeButton("No"){
+                negativeButton("No") {
                     toast("취소하였습니다.")
                 }
             }.show()
             true
         }
-            btn_lotteryconfirm_stagelist.setOnClickListener {
-                when (status) {
-                    1 -> {
-                        finish()
-                        startActivity<MyLotteryDetailActivity>("idx" to ticket_idx)
-                        Log.d("앱잼",ticket_idx.toString())
-                    }
-                    2 -> {
-                        finish()
-                        startActivity<SearchActivity>()
-                    }
+        btn_lotteryconfirm_stagelist.setOnClickListener {
+            when (status) {
+                1 -> {
+                    finish()
+                    startActivity<MyLotteryDetailActivity>("idx" to ticket_idx)
+                    Log.d("앱잼", ticket_idx.toString())
+                }
+                2 -> {
+                    finish()
+                    startActivity<SearchActivity>()
                 }
             }
+        }
 
 
     }
@@ -113,8 +117,7 @@ class LotteryConfirmActivity : AppCompatActivity() {
                     .load(R.drawable.win)
                     .into(iv_lotteryconfirm_character)
                 tv_lotteryconfirm_title.text = "당첨입니다!"
-                tv_lotteryconfirm_title.setTextColor(getResources().getColor(R.color.colorCoral))
-                //iv_lotteryconfirm_character.setImageResource(R.drawable.win)
+                tv_lotteryconfirm_title.setTextColor(resources.getColor(R.color.colorCoral))
                 rl_lotteryconfirm_suggested.visibility = View.VISIBLE
                 rl_lotteryconfirm_unsuggested.visibility = View.GONE
                 btn_lotteryconfirm_stagelike.visibility = View.INVISIBLE
@@ -125,8 +128,7 @@ class LotteryConfirmActivity : AppCompatActivity() {
                     .load(R.drawable.fail)
                     .into(iv_lotteryconfirm_character)
                 tv_lotteryconfirm_title.text = "아쉽지만 당첨되지\n 않았어요"
-                tv_lotteryconfirm_title.setTextColor(getResources().getColor(R.color.colorCoral))
-                //iv_lotteryconfirm_character.setImageResource(R.drawable.fail)
+                tv_lotteryconfirm_title.setTextColor(resources.getColor(R.color.colorCoral))
                 rl_lotteryconfirm_suggested.visibility = View.GONE
                 rl_lotteryconfirm_unsuggested.visibility = View.VISIBLE
                 btn_lotteryconfirm_stagelike.visibility = View.VISIBLE

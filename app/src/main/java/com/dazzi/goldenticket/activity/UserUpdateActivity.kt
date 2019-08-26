@@ -52,14 +52,14 @@ class UserUpdateActivity : AppCompatActivity() {
 
         //수정 버튼을 눌렀을 때 이벤트
         btn_userupdate.setOnClickListener {
-            val update_u_name = et_userupdate_name.text.toString()
-            val update_u_email = et_userupdate_email.text.toString()
-            val update_u_phone = et_userupdate_phone.text.toString()
+            val updateName: String = et_userupdate_name.text.toString()
+            val updateUEmail = et_userupdate_email.text.toString()
+            val updatePhone: String = et_userupdate_phone.text.toString()
 
 
             //서버에게 요청
-            if (isValid(update_u_name, update_u_email, update_u_phone))
-                putUserResponse(update_u_name, update_u_email, update_u_phone)
+            if (isValid(updateName, updateUEmail, updatePhone))
+                putUserResponse(updateName, updateUEmail, updatePhone)
         }
         et_userupdate_name.setText(getUserName(this), TextView.BufferType.EDITABLE)
         et_userupdate_phone.setText(getUserPhone(this), TextView.BufferType.EDITABLE)
@@ -67,7 +67,7 @@ class UserUpdateActivity : AppCompatActivity() {
     }
 
     //이메일 형식인지 유효성 검사
-    fun validateEmail(emailStr: String): Boolean {
+    private fun validateEmail(emailStr: String): Boolean {
         val matcher: Matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr)
         return matcher.find()
     }
@@ -87,7 +87,7 @@ class UserUpdateActivity : AppCompatActivity() {
         }
     }
 
-    fun isValid(u_name: String, u_email: String, u_phone: String): Boolean {
+    private fun isValid(u_name: String, u_email: String, u_phone: String): Boolean {
         if (u_name == "") {
             toast("이름을 입력하세요")
             et_userupdate_name.requestFocus()
@@ -105,7 +105,7 @@ class UserUpdateActivity : AppCompatActivity() {
     }
 
     //서버에 사용자 업데이트 요청
-    fun putUserResponse(u_name: String, u_email: String, u_phone: String) {
+    private fun putUserResponse(u_name: String, u_email: String, u_phone: String) {
 
         //id,password를 받아서 JSON객체로 만든다.
         var jsonObject = JSONObject()
@@ -131,7 +131,7 @@ class UserUpdateActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     if (response.body()!!.status == 200) {
                         //Request UserUpdate
-                        SharedPreferenceController.setUserInfo(applicationContext, response.body()!!.data!!)
+                        SharedPreferenceController.setUserInfo(applicationContext, response.body()!!.data)
                         toast("수정이 되었습니다")
                     }
                 }

@@ -12,7 +12,7 @@ import com.dazzi.goldenticket.adapter.viewholder.TodayPosterHolder
 import com.dazzi.goldenticket.data.ShowTodayData
 import org.jetbrains.anko.startActivity
 
-class ShowMainRecyclerViewAdapter(val ctx: Context) :
+class MainTodayPosterAdapter(val ctx: Context) :
     RecyclerView.Adapter<TodayPosterHolder>() {
 
     private val mainPosterList = mutableListOf<ShowTodayData>()
